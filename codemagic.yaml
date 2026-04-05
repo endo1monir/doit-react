@@ -1,28 +1,25 @@
 workflows:
-  react-native-android:
-    name: React Native Android APK Build
+  android-apk:
+    name: Android APK Build
     max_build_duration: 60
-    instance_type: mac_mini_m1
+    instance_type: linux
     environment:
       node: latest
       java: 17
+      android: latest
     scripts:
-      - name: Setup and Install Dependencies
+      - name: Install Dependencies
         script: |
-          # 1. Ensure pnpm is ready
-          npm install -g pnpm --force
-          
-          # 2. Strip Yarn restrictions and FIX the catalog issue
-          # This replaces "catalog:" with "*" (wildcard version) in package.json
-          sed -i '' '/"packageManager":/d' package.json
-          sed -i '' 's/catalog:/*/g' package.json
-          
-          # 3. Install dependencies
+          npm install -g pnpm
+          sed -i 's/"catalog:"/"*"/g' package.json
           pnpm install --no-frozen-lockfile
+      - name: Prebuild Android
+        script: |
+          npx expo prebuild --platform android --clean
       - name: Set up local.properties
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
-      - name: Build Android APK
+      - name: Build APK
         script: |
           cd android
           chmod +x gradlew
