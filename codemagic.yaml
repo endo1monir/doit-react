@@ -9,7 +9,7 @@ workflows:
     scripts:
       - name: Install dependencies with pnpm
         script: |
-          pnpm install
+          pnpm install --no-frozen-lockfile
       - name: Set up local.properties
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
