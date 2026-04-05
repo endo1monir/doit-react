@@ -15,7 +15,7 @@ workflows:
           pnpm install --no-frozen-lockfile
       - name: Prebuild Android
         script: |
-          yes | npx expo prebuild --platform android --clean
+          npx expo prebuild --platform android --clean --no-install
       - name: Set up local.properties
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
