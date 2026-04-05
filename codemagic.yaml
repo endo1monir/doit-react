@@ -7,13 +7,16 @@ workflows:
       node: latest
       java: 17
     scripts:
-      - name: Force pnpm environment
+      - name: Setup and Install Dependencies
         script: |
-          # Remove the 'packageManager' restriction from package.json
+          # 1. Force install pnpm to ensure it exists and works
+          npm install -g pnpm --force
+          
+          # 2. Remove the Yarn restriction from package.json
+          # Note: On macOS (Codemagic's mac_mini), sed -i needs the empty quotes ''
           sed -i '' '/"packageManager":/d' package.json
-          # Disable corepack to stop it from forcing Yarn
-          corepack disable
-          # Run the install
+          
+          # 3. Install the project dependencies
           pnpm install --no-frozen-lockfile
       - name: Set up local.properties
         script: |
