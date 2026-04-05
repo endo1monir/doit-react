@@ -8,8 +8,9 @@ workflows:
     scripts:
       - name: Install Dependencies
         script: |
-          npm install -g pnpm
-          sed -i 's/"catalog:"/"*"/g' package.json
+          npm install -g pnpm --force
+          sed -i '' '/"packageManager":/d' package.json
+          sed -i '' 's/"catalog:"/"*"/g' package.json
           pnpm install --no-frozen-lockfile
       - name: Prebuild Android
         script: |
