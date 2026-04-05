@@ -7,9 +7,6 @@ workflows:
       node: latest
       java: 17
     scripts:
-      - name: Install pnpm
-        script: |
-          npm install -g pnpm
       - name: Install dependencies with pnpm
         script: |
           pnpm install
