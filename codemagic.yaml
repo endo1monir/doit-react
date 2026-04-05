@@ -9,14 +9,15 @@ workflows:
     scripts:
       - name: Setup and Install Dependencies
         script: |
-          # 1. Force install pnpm to ensure it exists and works
+          # 1. Ensure pnpm is ready
           npm install -g pnpm --force
           
-          # 2. Remove the Yarn restriction from package.json
-          # Note: On macOS (Codemagic's mac_mini), sed -i needs the empty quotes ''
+          # 2. Strip Yarn restrictions and FIX the catalog issue
+          # This replaces "catalog:" with "*" (wildcard version) in package.json
           sed -i '' '/"packageManager":/d' package.json
+          sed -i '' 's/catalog:/*/g' package.json
           
-          # 3. Install the project dependencies
+          # 3. Install dependencies
           pnpm install --no-frozen-lockfile
       - name: Set up local.properties
         script: |
