@@ -7,8 +7,13 @@ workflows:
       node: latest
       java: 17
     scripts:
-      - name: Install dependencies with pnpm
+      - name: Force pnpm environment
         script: |
+          # Remove the 'packageManager' restriction from package.json
+          sed -i '' '/"packageManager":/d' package.json
+          # Disable corepack to stop it from forcing Yarn
+          corepack disable
+          # Run the install
           pnpm install --no-frozen-lockfile
       - name: Set up local.properties
         script: |
