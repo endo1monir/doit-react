@@ -10,6 +10,7 @@ workflows:
         script: |
           npm install -g pnpm --force
           sed -i '' '/"packageManager":/d' package.json
+          sed -i '' '/"@workspace\/api-client-react":/d' package.json
           sed -i '' 's/"catalog:"/"*"/g' package.json
           pnpm install --no-frozen-lockfile
       - name: Prebuild Android
